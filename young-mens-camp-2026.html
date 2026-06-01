@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young Men's Camp 2026 — Field Manual</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1e3a1e;
+    --pine: #2d5a2d;
+    --sage: #6b8f6b;
+    --cream: #f5f0e8;
+    --parchment: #ede6d6;
+    --bark: #7a5c35;
+    --ember: #c4622d;
+    --sky: #3a6e96;
+    --gold: #c4922a;
+    --charcoal: #1a1a1a;
+    --muted: #6b6b6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.018) 30px,
+      rgba(255,255,255,0.018) 60px
+    );
+  }
+
+  .header-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5.5rem;
+    letter-spacing: 6px;
+    line-height: 0.88;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 .accent {
+    display: block;
+    font-size: 2.8rem;
+    color: var(--gold);
+    letter-spacing: 10px;
+    margin-top: 6px;
+  }
+
+  .header-theme {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.75);
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-meta {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.55);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== TAB NAV ===== */
+  .tab-nav {
+    background: var(--charcoal);
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 17px 12px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: rgba(245,240,232,0.45);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .tab-btn:hover { color: var(--cream); background: rgba(255,255,255,0.04); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ===== SECTIONS ===== */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.2s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SCHEDULE ===== */
+  .legend-bar {
+    background: var(--parchment);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 13px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .legend-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-right: 2px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sched-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .day-card {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .day-card.full-width { grid-column: 1 / -1; }
+
+  .day-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .day-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.9rem;
+    letter-spacing: 2px;
+    color: var(--cream);
+  }
+
+  .day-date {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: rgba(245,240,232,0.5);
+    margin-left: 8px;
+  }
+
+  .day-theme {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    text-align: right;
+    max-width: 160px;
+  }
+
+  .day-monday .day-header    { background: var(--forest); }
+  .day-tuesday .day-header   { background: var(--pine); }
+  .day-wednesday .day-header { background: var(--bark); }
+  .day-thursday .day-header  { background: var(--ember); }
+  .day-friday .day-header    { background: var(--sky); }
+
+  .schedule { padding: 6px 0; }
+
+  .block {
+    display: flex;
+    align-items: flex-start;
+    padding: 9px 20px;
+    gap: 16px;
+    border-left: 3px solid transparent;
+    transition: background 0.12s;
+  }
+
+  .block:hover { background: rgba(0,0,0,0.02); }
+
+  .time {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--muted);
+    min-width: 58px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .activity-wrap { flex: 1; }
+
+  .activity .sub {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .activity {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    color: #fff;
+  }
+
+  .type-wake       { border-left-color: #ccc; }
+  .type-meal       { border-left-color: var(--gold); }
+  .type-devotional { border-left-color: var(--sky); }
+  .type-excursion  { border-left-color: var(--pine); }
+  .type-sports     { border-left-color: var(--ember); }
+  .type-campfire   { border-left-color: #7a4020; }
+  .type-lights     { border-left-color: #aaa; }
+  .type-travel     { border-left-color: #bbb; }
+
+  .tag-meal       { background: var(--gold); }
+  .tag-devotional { background: var(--sky); }
+  .tag-excursion  { background: var(--pine); }
+  .tag-sports     { background: var(--ember); }
+  .tag-campfire   { background: #7a4020; }
+  .tag-offsite    { background: #555; }
+  .tag-free       { background: var(--sage); }
+  .tag-mixer      { background: var(--bark); }
+
+  /* ===== MAP ===== */
+  .map-outer {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+    color: var(--forest);
+    margin-bottom: 2px;
+  }
+
+  .section-sub {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .map-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .map-wrapper img { width: 100%; min-width: 600px; height: auto; display: block; }
+
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: var(--parchment);
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.07);
+    align-items: center;
+  }
+
+  .mleg { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; }
+  .mleg-swatch { width: 18px; height: 14px; border-radius: 3px; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.1); }
+
+  /* ===== FREE TIME ACTIVITIES ===== */
+  .activities-outer { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .activity-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 16px 18px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .act-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1.2; }
+
+  .act-name { font-size: 0.88rem; font-weight: 600; color: var(--charcoal); }
+
+  .act-note { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+
+  @media (max-width: 680px) {
+    .activities-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 380px) {
+    .activities-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ===== PACKING LIST ===== */
+  .gear-outer {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  .progress-wrap {
+    background: var(--parchment);
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .pbar { flex: 1; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+  .pfill { height: 100%; background: var(--pine); border-radius: 4px; width: 0%; transition: width 0.3s; }
+
+  .pcount {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--pine);
+    white-space: nowrap;
+  }
+
+  .gear-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .gear-cat { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.06); }
+  .gear-cat.fw { grid-column: 1 / -1; }
+
+  .cat-head {
+    padding: 14px 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    color: var(--cream);
+  }
+
+  .cat-clothing   .cat-head { background: var(--forest); }
+  .cat-sleep      .cat-head { background: var(--pine); }
+  .cat-toiletries .cat-head { background: var(--bark); }
+  .cat-gear       .cat-head { background: var(--sky); }
+  .cat-notes      .cat-head { background: var(--ember); }
+
+  .gear-items { padding: 10px 0; }
+
+  .gi {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 20px;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .gi:hover { background: rgba(0,0,0,0.02); }
+
+  .gi input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d0c8b8;
+    border-radius: 3px;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .gi input[type="checkbox"]:checked {
+    background: var(--pine);
+    border-color: var(--pine);
+  }
+
+  .gi input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+  }
+
+  .gi label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    cursor: pointer;
+    flex: 1;
+  }
+
+  .gi label .sub {
+    display: block;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .gi.done label { text-decoration: line-through; color: var(--muted); }
+
+  /* All packed celebration */
+  @keyframes pulseFill {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.6; }
+  }
+  .progress-wrap.all-packed .pfill { background: var(--gold); animation: pulseFill 0.7s ease 1; }
+  .progress-wrap.all-packed .pcount { color: var(--gold); }
+
+  /* Today badge on schedule */
+  .day-card.day-today { box-shadow: 0 0 0 3px var(--gold), 0 4px 16px rgba(0,0,0,0.12); }
+  .today-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  .notes-body {
+    padding: 16px 20px;
+    font-size: 0.84rem;
+    line-height: 1.7;
+  }
+
+  .notes-body p { margin-bottom: 10px; }
+  .notes-body p:last-child { margin-bottom: 0; }
+  .notes-body strong { color: var(--forest); }
+
+  .elec-banner {
+    background: var(--charcoal);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 22px 26px;
+    margin-top: 20px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .elec-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+
+  .elec-banner h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    color: var(--ember);
+    margin-bottom: 5px;
+  }
+
+  .elec-banner p { font-size: 0.83rem; color: rgba(245,240,232,0.7); line-height: 1.55; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 680px) {
+    .header h1 { font-size: 3.2rem; }
+    .header h1 .accent { font-size: 1.8rem; }
+    .tab-btn { font-size: 0.62rem; padding: 14px 6px; letter-spacing: 1.5px; }
+    .sched-container { grid-template-columns: 1fr; }
+    .day-card.full-width { grid-column: 1; }
+    .gear-grid { grid-template-columns: 1fr; }
+    .gear-cat.fw { grid-column: 1; }
+    .legend-bar { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-eyebrow">&#9632; Pioneer Trail Camp &#9632; Hiram Ohio Stake &#9632; Summer 2026 &#9632;</div>
+  <h1>YOUNG MEN'S<span class="accent">CAMP</span></h1>
+  <div class="header-theme">Walk with Me</div>
+  <div class="header-meta">
+    <span>June 8–12, 2026</span>
+  </div>
+</div>
+
+<!-- ===== TAB NAV ===== -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('schedule',this)">&#128197; Schedule</button>
+  <button class="tab-btn" onclick="switchTab('map',this)">&#128205; Camp Map</button>
+  <button class="tab-btn" onclick="switchTab('gear',this)">&#127947; Packing List</button>
+</nav>
+
+<!-- ================================================================
+     SCHEDULE SECTION
+     ================================================================ -->
+<section id="schedule" class="section active">
+
+  <div class="legend-bar">
+    <span class="legend-label">Key</span>
+    <div class="legend-item"><div class="dot" style="background:var(--gold)"></div> Meal</div>
+    <div class="legend-item"><div class="dot" style="background:var(--sky)"></div> Devotional</div>
+    <div class="legend-item"><div class="dot" style="background:var(--pine)"></div> Activity</div>
+    <div class="legend-item"><div class="dot" style="background:var(--ember)"></div> Sports &amp; Games</div>
+    <div class="legend-item"><div class="dot" style="background:#7a4020"></div> Campfire</div>
+  </div>
+
+  <div class="sched-container">
+
+    <!-- MONDAY -->
+    <div class="day-card day-monday full-width">
+      <div class="day-header">
+        <div class="day-name">Monday <span class="day-date">June 8</span></div>
+        <div class="day-theme">Arrival Night</div>
+      </div>
+      <div class="schedule">
+        <div class="block type-meal">
+          <div class="time">5:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Dinner <span class="tag tag-meal">Meal</span><span class="sub">Asian Bowl — chicken, rice, black beans, carrots, pineapple, mango</span></div></div>
+        </div>
+        <div class="block type-campfire">
+          <div class="time">7:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Bonfire &amp; Fireside Kick Off <span class="tag tag-campfire">Campfire</span> <span class="tag tag-devotional">Devotional</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">8:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Free Time <span class="tag tag-free">Free</span></div></div>
+        </div>
+        <div class="block type-campfire">
+          <div class="time">9:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Campsite Fire <span class="tag tag-campfire">Campfire</span></div></div>
+        </div>
+        <div class="block type-lights">
+          <div class="time">10:00 PM</div>
+          <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUESDAY -->
+    <div class="day-card day-tuesday">
+      <div class="day-header">
+        <div class="day-name">Tuesday <span class="day-date">June 9</span></div>
+        <div class="day-theme">Christ Walks With Us</div>
+      </div>
+      <div class="schedule">
+        <div class="block type-wake">
+          <div class="time">7:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">8:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">9:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">9:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Bus to Canoeing</div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">10:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Canoeing <span class="tag tag-offsite">Off-Site</span><span class="sub">@ Camp Hi Canoes and Kayaks</span></div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">12:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bowling + Lunch <span class="tag tag-offsite">Off-Site</span><span class="sub">@ Skylane Bowling Garrettsville</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">3:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bus Ride</div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">5:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Dinner <span class="tag tag-meal">Meal</span><span class="sub">Taco Bar — ground beef, black beans, shredded lettuce, black olives, cheese, sour cream, guacamole · tortilla chips · mexican rice · watermelon</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">6:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Taco Tuesday Mixer <span class="tag tag-mixer">Mixer</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">7:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Fireside <span class="tag tag-devotional">Devotional</span><span class="sub">with President Earl</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">8:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Free Time <span class="tag tag-free">Free</span></div></div>
+        </div>
+        <div class="block type-campfire">
+          <div class="time">9:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Campsite Fire <span class="tag tag-campfire">Campfire</span></div></div>
+        </div>
+        <div class="block type-lights">
+          <div class="time">10:00 PM</div>
+          <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY -->
+    <div class="day-card day-wednesday">
+      <div class="day-header">
+        <div class="day-name">Wednesday <span class="day-date">June 10</span></div>
+        <div class="day-theme">We Choose to Keep Walking</div>
+      </div>
+      <div class="schedule">
+        <div class="block type-wake">
+          <div class="time">7:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">8:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">9:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">9:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Scavenger Hunt <span class="tag tag-excursion">Activity</span></div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">12:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Lunch <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">12:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bus Ride</div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">1:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Shaker Rocks <span class="tag tag-offsite">Off-Site</span><span class="sub">Indoor rock climbing</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">3:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bus Ride</div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">4:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Free Time <span class="tag tag-free">Free</span></div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">5:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Dinner <span class="tag tag-meal">Meal</span><span class="sub">Italian Night — baked ziti · Italian bread · salad · fruit</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">7:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Fireside <span class="tag tag-devotional">Devotional</span><span class="sub">with President Aardema</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">7:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Capture the Flag <span class="tag tag-sports">Game</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">8:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Free Time <span class="tag tag-free">Free</span></div></div>
+        </div>
+        <div class="block type-campfire">
+          <div class="time">9:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Campsite Fire <span class="tag tag-campfire">Campfire</span></div></div>
+        </div>
+        <div class="block type-lights">
+          <div class="time">10:00 PM</div>
+          <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THURSDAY -->
+    <div class="day-card day-thursday">
+      <div class="day-header">
+        <div class="day-name">Thursday <span class="day-date">June 11</span></div>
+        <div class="day-theme">We Walk with Each Other</div>
+      </div>
+      <div class="schedule">
+        <div class="block type-wake">
+          <div class="time">7:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">8:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">9:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">9:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Team Wilderness Build <span class="tag tag-excursion">Activity</span></div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">10:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Survivor Trail Challenge <span class="tag tag-excursion">Activity</span></div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">12:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Lunch <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">12:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bus Ride</div></div>
+        </div>
+        <div class="block type-excursion">
+          <div class="time">1:00 PM</div>
+          <div class="activity-wrap"><div class="activity">WhirlyBall <span class="tag tag-offsite">Off-Site</span><span class="sub">lacrosse/basketball + bumper cars</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">3:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Bus Ride</div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">4:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Field Olympics <span class="tag tag-sports">Game</span></div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">5:30 PM</div>
+          <div class="activity-wrap"><div class="activity">Dinner <span class="tag tag-meal">Meal</span><span class="sub">American Night — pizza · salad · apples &amp; nectarines</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">7:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Bishop Fireside Chat <span class="tag tag-devotional">Devotional</span><span class="sub">with your Ward group</span></div></div>
+        </div>
+        <div class="block type-sports">
+          <div class="time">8:00 PM</div>
+          <div class="activity-wrap"><div class="activity">Free Time <span class="tag tag-free">Free</span></div></div>
+        </div>
+        <div class="block type-lights">
+          <div class="time">10:00 PM</div>
+          <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRIDAY -->
+    <div class="day-card day-friday full-width">
+      <div class="day-header">
+        <div class="day-name">Friday <span class="day-date">June 12</span></div>
+        <div class="day-theme">Departure</div>
+      </div>
+      <div class="schedule">
+        <div class="block type-wake">
+          <div class="time">7:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+        </div>
+        <div class="block type-meal">
+          <div class="time">8:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+        </div>
+        <div class="block type-devotional">
+          <div class="time">8:30 AM</div>
+          <div class="activity-wrap"><div class="activity">Closing Thoughts <span class="tag tag-devotional">Devotional</span></div></div>
+        </div>
+        <div class="block type-travel">
+          <div class="time">9:00 AM</div>
+          <div class="activity-wrap"><div class="activity">Break Down Camp &amp; Depart</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================
+     MAP SECTION
+     ================================================================ -->
+<section id="map" class="section">
+  <div class="map-outer">
+    <div class="section-title">CAMP MAP</div>
+    <div class="section-sub">Pioneer Trail Camp &nbsp;&#8212;&nbsp; For reference only &nbsp;&#8212;&nbsp; Not to scale</div>
+
+    <div class="map-wrapper">
+      <img src="pioneer_camp.png" alt="Pioneer Trail Camp Map">
+    </div>
+
+    <div class="map-legend">
+      <span class="legend-label" style="font-family:'Courier Prime',monospace;font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px;">Key</span>
+      <div class="mleg"><div class="mleg-swatch" style="background:#2d5a22"></div> Forest / Wooded Area</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#8b6f47"></div> Buildings (Stage, Mess Hall)</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#4a90c4"></div> Restrooms</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#e8c84a; border-color:rgba(0,0,0,0.2)"></div> Tent Sites</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#c4622d"></div> Sports Areas (Volleyball, Gaga Ball)</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#c2af8a; border-color:rgba(0,0,0,0.15)"></div> Paths / Road</div>
+      <div class="mleg"><div class="mleg-swatch" style="background:#2a1a08; border-color:rgba(0,0,0,0.2)"></div> Fire Pit</div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--muted);margin-top:10px;font-family:'Courier Prime',monospace;">* Map is illustrative. Actual layout may vary. Ask your leaders for directions to specific areas.</p>
+  </div>
+
+  <div class="activities-outer">
+    <div class="section-title">FREE TIME ACTIVITIES</div>
+    <div class="section-sub">What's available at camp</div>
+
+    <div class="activities-grid">
+
+      <div class="activity-card">
+        <div class="act-icon">🏐</div>
+        <div>
+          <div class="act-name">Volleyball</div>
+          <div class="act-note">Sports area near the field</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🎯</div>
+        <div>
+          <div class="act-name">Gaga Ball</div>
+          <div class="act-note">Gaga pit — everyone in at once</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🔲</div>
+        <div>
+          <div class="act-name">9 Square</div>
+          <div class="act-note">Next to Gaga Ball pit</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🎣</div>
+        <div>
+          <div class="act-name">Fishing</div>
+          <div class="act-note">Bring your own gear if you have it</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🎲</div>
+        <div>
+          <div class="act-name">Board Games</div>
+          <div class="act-note">Available in the mess hall</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🏸</div>
+        <div>
+          <div class="act-name">Badminton</div>
+          <div class="act-note">Nets set up near the field</div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="act-icon">🏓</div>
+        <div>
+          <div class="act-name">Ping Pong</div>
+          <div class="act-note">Tables in the mess hall</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     PACKING LIST SECTION
+     ================================================================ -->
+<section id="gear" class="section">
+  <div class="gear-outer">
+    <div class="section-title">PACKING LIST</div>
+    <div class="section-sub">Everything you need &nbsp;&#8212;&nbsp; Nothing you don't</div>
+
+    <!-- Progress tracker -->
+    <div class="progress-wrap">
+      <div class="progress-label">Packed</div>
+      <div class="pbar"><div class="pfill" id="pfill"></div></div>
+      <div class="pcount" id="pcount">0 / 0</div>
+    </div>
+
+    <div class="gear-grid">
+
+      <!-- NOTES -->
+      <div class="gear-cat cat-notes fw">
+        <div class="cat-head">Good to Know</div>
+        <div class="notes-body">
+          <p><strong>Label everything.</strong> Put your last name on all of it. Every single item. You will thank yourself later.</p>
+          <p><strong>For the Strength of Youth.</strong> All clothing worn at camp must follow FSY standards.</p>
+        </div>
+      </div>
+
+      <!-- CLOTHING -->
+      <div class="gear-cat cat-clothing">
+        <div class="cat-head">Clothing</div>
+        <div class="gear-items">
+          <div class="gi"><input type="checkbox" id="k1"><label for="k1">T-shirts (4–5 recommended)</label></div>
+          <div class="gi"><input type="checkbox" id="k2"><label for="k2">Long sleeve shirt (at least 1)</label></div>
+          <div class="gi"><input type="checkbox" id="k3"><label for="k3">Shorts (3–4 pairs)</label></div>
+          <div class="gi"><input type="checkbox" id="k4"><label for="k4">Pants or athletic pants (at least 1)<span class="sub">Good for hiking and cold nights</span></label></div>
+          <div class="gi"><input type="checkbox" id="k5"><label for="k5">Swim trunks</label></div>
+          <div class="gi"><input type="checkbox" id="k6"><label for="k6">Underwear (5+ pairs)</label></div>
+          <div class="gi"><input type="checkbox" id="k7"><label for="k7">Socks (5+ pairs)</label></div>
+          <div class="gi"><input type="checkbox" id="k8"><label for="k8">Pajamas or sleep clothes</label></div>
+          <div class="gi"><input type="checkbox" id="k9"><label for="k9">Warm jacket or sweatshirt</label></div>
+          <div class="gi"><input type="checkbox" id="k10"><label for="k10">Poncho or raincoat</label></div>
+          <div class="gi"><input type="checkbox" id="k11"><label for="k11">Rain boots (optional)</label></div>
+          <div class="gi"><input type="checkbox" id="k12"><label for="k12">Tennis shoes or hiking boots<span class="sub">Close-toed shoes required for all activities</span></label></div>
+          <div class="gi"><input type="checkbox" id="k13"><label for="k13">Flip flops or slides<span class="sub">For showers only</span></label></div>
+          <div class="gi"><input type="checkbox" id="k14"><label for="k14">Camp shoes / crocs (optional)<span class="sub">Great for hanging around camp</span></label></div>
+        </div>
+      </div>
+
+      <!-- SLEEP + SHELTER -->
+      <div class="gear-cat cat-sleep">
+        <div class="cat-head">Sleep + Shelter</div>
+        <div class="gear-items">
+          <div class="gi"><input type="checkbox" id="s1"><label for="s1">Sleeping bag<span class="sub">Rated for 40F+ recommended for NE Ohio June nights</span></label></div>
+          <div class="gi"><input type="checkbox" id="s6"><label for="s6">Sleeping pad or foam mat<span class="sub">Essential for tent camping — ground pulls heat fast</span></label></div>
+          <div class="gi"><input type="checkbox" id="s2"><label for="s2">Pillow</label></div>
+          <div class="gi"><input type="checkbox" id="s3"><label for="s3">Plastic bag for wet or dirty clothes</label></div>
+          <div class="gi"><input type="checkbox" id="s4"><label for="s4">Drawstring bag or small backpack<span class="sub">For off-site days and excursions</span></label></div>
+          <div class="gi"><input type="checkbox" id="s5"><label for="s5">Camp chair</label></div>
+        </div>
+      </div>
+
+      <!-- TOILETRIES -->
+      <div class="gear-cat cat-toiletries">
+        <div class="cat-head">Toiletries</div>
+        <div class="gear-items">
+          <div class="gi"><input type="checkbox" id="t1"><label for="t1">Toothbrush and toothpaste</label></div>
+          <div class="gi"><input type="checkbox" id="t2"><label for="t2">Shampoo and conditioner</label></div>
+          <div class="gi"><input type="checkbox" id="t3"><label for="t3">Soap and case</label></div>
+          <div class="gi"><input type="checkbox" id="t4"><label for="t4">Deodorant</label></div>
+          <div class="gi"><input type="checkbox" id="t5"><label for="t5">Bath towel and washcloth</label></div>
+          <div class="gi"><input type="checkbox" id="t6"><label for="t6">Swimming towel</label></div>
+          <div class="gi"><input type="checkbox" id="t7"><label for="t7">Sunscreen and lotion</label></div>
+          <div class="gi"><input type="checkbox" id="t8"><label for="t8">Insect repellent</label></div>
+          <div class="gi"><input type="checkbox" id="t9"><label for="t9">Lip balm</label></div>
+          <div class="gi"><input type="checkbox" id="t10"><label for="t10">Hairbrush or comb</label></div>
+          <div class="gi"><input type="checkbox" id="t11"><label for="t11">Bag or container for toiletries<span class="sub">For carrying to and from bathrooms</span></label></div>
+          <div class="gi"><input type="checkbox" id="t12"><label for="t12">Shaving kit (optional)<span class="sub">If you need it, bring it</span></label></div>
+          <div class="gi"><input type="checkbox" id="t13"><label for="t13">Prescription medication (if needed)<span class="sub">Give to your adult leader on arrival day</span></label></div>
+        </div>
+      </div>
+
+      <!-- GEAR + ACCESSORIES -->
+      <div class="gear-cat cat-gear">
+        <div class="cat-head">Gear + Accessories</div>
+        <div class="gear-items">
+          <div class="gi"><input type="checkbox" id="g1"><label for="g1">Headlamp and extra batteries<span class="sub">Hands-free is essential at a tent campsite</span></label></div>
+          <div class="gi"><input type="checkbox" id="g1b"><label for="g1b">Flashlight (backup)</label></div>
+          <div class="gi"><input type="checkbox" id="g2"><label for="g2">Water bottle or canteen</label></div>
+          <div class="gi"><input type="checkbox" id="g4"><label for="g4">Sunglasses (optional)</label></div>
+          <div class="gi"><input type="checkbox" id="g5"><label for="g5">Bandana (optional)</label></div>
+          <div class="gi"><input type="checkbox" id="g8"><label for="g8">Snacks<span class="sub">Must fit in one gallon ziplock bag</span></label></div>
+          <div class="gi"><input type="checkbox" id="g11"><label for="g11">Dry bag or waterproof phone case<span class="sub">Rain plus outdoor activities is a real combination</span></label></div>
+          <div class="gi"><input type="checkbox" id="g9"><label for="g9">Fishing pole (optional)<span class="sub">For use during free time</span></label></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Packing list progress (persisted via localStorage)
+  (function() {
+    const fill  = document.getElementById('pfill');
+    const count = document.getElementById('pcount');
+    const boxes = document.querySelectorAll('.gear-items input[type="checkbox"]');
+    const KEY   = 'camp2026-packing';
+
+    function save() {
+      const state = {};
+      boxes.forEach(cb => { state[cb.id] = cb.checked; });
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
+
+    function restore() {
+      try {
+        const state = JSON.parse(localStorage.getItem(KEY) || '{}');
+        boxes.forEach(cb => {
+          if (state[cb.id]) {
+            cb.checked = true;
+            cb.closest('.gi').classList.add('done');
+          }
+        });
+      } catch(e) {}
+    }
+
+    function update() {
+      const total   = boxes.length;
+      const checked = document.querySelectorAll('.gear-items input[type="checkbox"]:checked').length;
+      fill.style.width = total ? (checked / total * 100) + '%' : '0%';
+      const allDone = total > 0 && checked === total;
+      count.textContent = allDone ? 'All packed! ✓' : checked + ' / ' + total;
+      document.querySelector('.progress-wrap').classList.toggle('all-packed', allDone);
+    }
+
+    boxes.forEach(cb => {
+      cb.addEventListener('change', function() {
+        this.closest('.gi').classList.toggle('done', this.checked);
+        save();
+        update();
+      });
+    });
+
+    restore();
+    update();
+  })();
+
+  // Register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+
+  // Highlight today's day card during camp week
+  (function() {
+    const campDays = {
+      '2026-06-08': 'day-monday',
+      '2026-06-09': 'day-tuesday',
+      '2026-06-10': 'day-wednesday',
+      '2026-06-11': 'day-thursday',
+      '2026-06-12': 'day-friday',
+    };
+    const today = new Date().toLocaleDateString('en-CA');
+    const cls = campDays[today];
+    if (cls) {
+      const card = document.querySelector('.' + cls);
+      if (card) {
+        card.classList.add('day-today');
+        const dayName = card.querySelector('.day-name');
+        if (dayName) {
+          const badge = document.createElement('span');
+          badge.className = 'today-badge';
+          badge.textContent = 'Today';
+          dayName.appendChild(badge);
+        }
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
