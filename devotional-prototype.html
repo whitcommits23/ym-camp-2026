@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devotional Overlay — Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest:    #1e3a1e;
+    --pine:      #2d5a2d;
+    --sage:      #6b8f6b;
+    --cream:     #f5f0e8;
+    --parchment: #ede6d6;
+    --bark:      #7a5c35;
+    --ember:     #c4622d;
+    --sky:       #3a6e96;
+    --gold:      #c4922a;
+    --charcoal:  #1a1a1a;
+    --muted:     #6b6b6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 40px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.018) 30px, rgba(255,255,255,0.018) 60px);
+  }
+  .header-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 5px;
+    line-height: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+  .header h1 .accent {
+    display: block;
+    font-size: 2.2rem;
+    color: var(--gold);
+    letter-spacing: 9px;
+    margin-top: 4px;
+  }
+  .header-theme {
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: rgba(245,240,232,0.7);
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── TAB NAV ─── */
+  .tab-nav {
+    background: var(--charcoal);
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 16px 8px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: rgba(245,240,232,0.4);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ─── SCHEDULE ─── */
+  .sched-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 20px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .proto-note {
+    background: var(--charcoal);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    border-left: 4px solid var(--gold);
+  }
+  .proto-note strong { color: var(--gold); }
+
+  .day-card {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .day-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .day-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    letter-spacing: 2px;
+    color: var(--cream);
+  }
+  .day-date {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    margin-left: 8px;
+  }
+  .day-theme-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    text-align: right;
+    max-width: 140px;
+  }
+  .day-tuesday  .day-header { background: var(--pine); }
+  .day-wednesday .day-header { background: var(--bark); }
+  .day-thursday  .day-header { background: var(--ember); }
+
+  .schedule { padding: 4px 0; }
+
+  .block {
+    display: flex;
+    align-items: flex-start;
+    padding: 9px 20px;
+    gap: 14px;
+    border-left: 3px solid transparent;
+  }
+  .block.type-meal       { border-left-color: var(--gold); }
+  .block.type-devotional { border-left-color: var(--sky); }
+  .block.type-wake       { border-left-color: #ccc; }
+  .block.type-excursion  { border-left-color: var(--pine); }
+  .block.type-lights     { border-left-color: #aaa; }
+
+  .time {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    min-width: 54px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .activity-wrap { flex: 1; }
+  .activity {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+  .activity .sub {
+    display: block;
+    font-size: 0.71rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-left: 7px;
+    vertical-align: middle;
+    color: #fff;
+  }
+  .tag-meal       { background: var(--gold); }
+  .tag-devotional { background: var(--sky); }
+  .tag-excursion  { background: var(--pine); }
+
+  /* ─── TAPPABLE DEVOTIONAL BLOCK ─── */
+  .block.devotional-tappable {
+    cursor: pointer;
+    background: rgba(58, 110, 150, 0.04);
+    transition: background 0.15s, transform 0.1s;
+    position: relative;
+  }
+  .block.devotional-tappable:hover,
+  .block.devotional-tappable:active {
+    background: rgba(58, 110, 150, 0.1);
+  }
+  .open-hint {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-top: 5px;
+  }
+  .open-hint::after {
+    content: '›';
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  /* ─── OVERLAY ─── */
+  .overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .overlay-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .overlay-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: var(--cream);
+    z-index: 201;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .overlay-sheet.open {
+    transform: translateY(0);
+  }
+
+  /* Overlay header */
+  .overlay-header {
+    flex-shrink: 0;
+    padding: 22px 22px 18px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+  }
+  .overlay-header-left {}
+  .overlay-day {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    margin-bottom: 8px;
+  }
+  .overlay-theme {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    line-height: 0.95;
+    color: var(--cream);
+  }
+  .close-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: var(--cream);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .close-btn:hover { background: rgba(255,255,255,0.25); }
+
+  /* Day nav pills */
+  .day-pills {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    padding: 0 22px 18px;
+    background: inherit; /* inherits header bg */
+  }
+  .day-pill {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: none;
+  }
+  .day-pill.active {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
+  }
+  .day-pill:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* Scrollable content */
+  .overlay-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--cream);
+    padding: 28px 22px 48px;
+  }
+
+  /* Talk ref */
+  .talk-ref {
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .talk-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+  .talk-meta {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Setup paragraph */
+  .setup-para {
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--charcoal);
+    margin-bottom: 28px;
+  }
+
+  /* Section label */
+  .content-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .content-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+  }
+
+  /* Quote blocks */
+  .quotes { margin-bottom: 30px; }
+  .quote-block {
+    border-left: 3px solid var(--sky);
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    background: rgba(58, 110, 150, 0.04);
+    border-radius: 0 4px 4px 0;
+  }
+  .quote-text {
+    font-size: 0.92rem;
+    font-style: italic;
+    line-height: 1.65;
+    color: #222;
+  }
+  .quote-attrib {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.66rem;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Bridge text between quotes */
+  .bridge {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    margin: 4px 0 10px 0;
+  }
+
+  /* Story text (Thursday) */
+  .story-para {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  /* Questions */
+  .questions { margin-bottom: 30px; }
+  .question-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .q-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--pine);
+    line-height: 1;
+    min-width: 18px;
+    padding-top: 1px;
+  }
+  .q-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--charcoal);
+    flex: 1;
+  }
+
+  /* Invitation box */
+  .invitation-box {
+    background: var(--forest);
+    border-radius: 6px;
+    padding: 20px 22px;
+    color: var(--cream);
+  }
+  .inv-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .inv-text {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.9);
+  }
+
+  /* Header colors by day */
+  .header-tuesday   .overlay-header,
+  .header-tuesday   .day-pills       { background: var(--pine); }
+  .header-wednesday .overlay-header,
+  .header-wednesday .day-pills       { background: var(--bark); }
+  .header-thursday  .overlay-header,
+  .header-thursday  .day-pills       { background: var(--ember); }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .overlay-sheet { max-width: 100%; }
+    .overlay-day { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">&#9632; Pioneer Trail Camp &#9632; Hiram Ohio Stake &#9632; Summer 2026 &#9632;</div>
+  <h1>YOUNG MEN'S<span class="accent">CAMP</span></h1>
+  <div class="header-theme">Walk with Me</div>
+</div>
+
+<!-- TAB NAV (static for prototype) -->
+<nav class="tab-nav">
+  <button class="tab-btn active">&#128197; Schedule</button>
+  <button class="tab-btn">&#128205; Camp Map</button>
+  <button class="tab-btn">&#127947; Packing List</button>
+</nav>
+
+<!-- SCHEDULE -->
+<div class="sched-container">
+
+  <div class="proto-note">
+    <strong>Prototype note:</strong> Tap the highlighted "Quorum Morning" block on any day to test the devotional overlay. Other schedule items are non-interactive placeholders.
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day-card day-tuesday">
+    <div class="day-header">
+      <div class="day-name">Tuesday <span class="day-date">June 9</span></div>
+      <div class="day-theme-label">Christ Walks With Us</div>
+    </div>
+    <div class="schedule">
+      <div class="block type-wake">
+        <div class="time">7:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+      </div>
+      <div class="block type-meal">
+        <div class="time">8:00 AM</div>
+        <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+      </div>
+      <div class="block type-devotional devotional-tappable" onclick="openOverlay('tuesday')">
+        <div class="time">9:00 AM</div>
+        <div class="activity-wrap">
+          <div class="activity">Quorum Morning <span class="tag tag-devotional">Devotional</span></div>
+          <div class="open-hint">Open morning guide</div>
+        </div>
+      </div>
+      <div class="block type-excursion">
+        <div class="time">9:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Bus to Canoeing</div></div>
+      </div>
+      <div class="block type-lights">
+        <div class="time">10:00 PM</div>
+        <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day-card day-wednesday">
+    <div class="day-header">
+      <div class="day-name">Wednesday <span class="day-date">June 10</span></div>
+      <div class="day-theme-label">We Choose to Keep Walking</div>
+    </div>
+    <div class="schedule">
+      <div class="block type-wake">
+        <div class="time">7:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+      </div>
+      <div class="block type-meal">
+        <div class="time">8:00 AM</div>
+        <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+      </div>
+      <div class="block type-devotional devotional-tappable" onclick="openOverlay('wednesday')">
+        <div class="time">9:00 AM</div>
+        <div class="activity-wrap">
+          <div class="activity">Quorum Morning <span class="tag tag-devotional">Devotional</span></div>
+          <div class="open-hint">Open morning guide</div>
+        </div>
+      </div>
+      <div class="block type-excursion">
+        <div class="time">9:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Scavenger Hunt <span class="tag tag-excursion">Activity</span></div></div>
+      </div>
+      <div class="block type-lights">
+        <div class="time">10:00 PM</div>
+        <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day-card day-thursday">
+    <div class="day-header">
+      <div class="day-name">Thursday <span class="day-date">June 11</span></div>
+      <div class="day-theme-label">We Walk with Each Other</div>
+    </div>
+    <div class="schedule">
+      <div class="block type-wake">
+        <div class="time">7:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Rise and Shine</div></div>
+      </div>
+      <div class="block type-meal">
+        <div class="time">8:00 AM</div>
+        <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
+      </div>
+      <div class="block type-devotional devotional-tappable" onclick="openOverlay('thursday')">
+        <div class="time">9:00 AM</div>
+        <div class="activity-wrap">
+          <div class="activity">Quorum Morning <span class="tag tag-devotional">Devotional</span></div>
+          <div class="open-hint">Open morning guide</div>
+        </div>
+      </div>
+      <div class="block type-excursion">
+        <div class="time">9:30 AM</div>
+        <div class="activity-wrap"><div class="activity">Team Wilderness Build <span class="tag tag-excursion">Activity</span></div></div>
+      </div>
+      <div class="block type-lights">
+        <div class="time">10:00 PM</div>
+        <div class="activity-wrap"><div class="activity">In Tents &amp; Quiet Time</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sched-container -->
+
+<!-- ================================================================
+     OVERLAY
+     ================================================================ -->
+<div class="overlay-backdrop" id="backdrop" onclick="closeOverlay()"></div>
+
+<div class="overlay-sheet" id="overlaySheet">
+
+  <!-- Dynamic header color wrapper -->
+  <div id="overlayHeaderWrap">
+    <div class="overlay-header">
+      <div class="overlay-header-left">
+        <div class="overlay-day" id="overlayDay">Tuesday</div>
+        <div class="overlay-theme" id="overlayTheme">CHRIST WALKS WITH US</div>
+      </div>
+      <button class="close-btn" onclick="closeOverlay()">&#10005;</button>
+    </div>
+
+    <!-- Day nav pills -->
+    <div class="day-pills">
+      <button class="day-pill" id="pill-tuesday"   onclick="switchDay('tuesday')">Tue</button>
+      <button class="day-pill" id="pill-wednesday" onclick="switchDay('wednesday')">Wed</button>
+      <button class="day-pill" id="pill-thursday"  onclick="switchDay('thursday')">Thu</button>
+    </div>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="overlay-body" id="overlayBody">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+
+<script>
+// ─── CONTENT DATA ─────────────────────────────────────────────────────────────
+
+const days = {
+  tuesday: {
+    label: 'Tuesday',
+    theme: 'Christ walks with us',
+    headerClass: 'header-tuesday',
+    talk: {
+      title: '"Draw Near unto Me"',
+      speaker: 'President Henry B. Eyring',
+      conference: 'April 2025 General Conference'
+    },
+    setup: 'Two disciples are walking away from Jerusalem after the Crucifixion. They\'re heartbroken and confused. A stranger walks up and joins them for miles, opens the scriptures, explains everything they\'d missed. When He breaks bread at the end of the night, they finally see who it was: the risen Christ. He\'d been walking with them the whole time.',
+    content: `
+      <div class="content-label">Read</div>
+      <div class="quotes">
+        <div class="quote-block">
+          <div class="quote-text">"Draw near unto me and I will draw near unto you; seek me diligently and ye shall find me; ask, and ye shall receive; knock, and it shall be opened unto you."</div>
+          <div class="quote-attrib">— D&amp;C 88:63</div>
+        </div>
+        <p class="bridge">And here's what the two disciples said to each other after He'd gone:</p>
+        <div class="quote-block">
+          <div class="quote-text">"Did not our heart burn within us, while he talked with us by the way, and while he opened to us the scriptures?"</div>
+          <div class="quote-attrib">— Luke 24:32</div>
+        </div>
+      </div>
+
+      <div class="content-label">Questions</div>
+      <div class="questions">
+        <div class="question-item">
+          <div class="q-num">1</div>
+          <div class="q-text">Those two disciples walked with the Savior for miles and didn't recognize Him. When do you think Christ has been walking with you — maybe before you noticed it?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">2</div>
+          <div class="q-text">Their hearts burned while He talked with them. Have you felt something like that? When?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">3</div>
+          <div class="q-text">We're away from your normal routine this week. What's one specific thing you could do at camp to draw closer to Christ? Make it concrete.</div>
+        </div>
+      </div>
+
+      <div class="invitation-box">
+        <div class="inv-label">Today's invitation</div>
+        <div class="inv-text">At some point today, say a short prayer and specifically invite the Savior to walk with you through the rest of the day.</div>
+      </div>
+    `,
+    invitation: 'At some point today, say a short prayer and specifically invite the Savior to walk with you through the rest of the day.'
+  },
+
+  wednesday: {
+    label: 'Wednesday',
+    theme: 'We choose to keep walking',
+    headerClass: 'header-wednesday',
+    talk: {
+      title: '"Aligning Our Will with His"',
+      speaker: 'Elder Ulisses Soares',
+      conference: 'October 2024 General Conference'
+    },
+    setup: 'Yesterday was about Christ already walking with you. Today is about the choice you make to keep walking with Him.\n\nElder Soares opens with a parable, then goes straight at something you\'ve heard plenty: "live your own truth" and "do what works for you." He doesn\'t dodge it.',
+    content: `
+      <div class="content-label">Read</div>
+      <div class="quotes">
+        <div class="quote-block">
+          <div class="quote-text">A merchant man found a pearl of great price. In order to acquire it, he had to sell all his possessions — which he promptly and joyfully did.</div>
+          <div class="quote-attrib">— Matthew 13:45–46, paraphrased by Elder Soares</div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"The ultimate test of our discipleship is found in our willingness to give up and lose our old self and submit our heart and our whole soul to God so that His will becomes ours."</div>
+          <div class="quote-attrib">— Elder Ulisses Soares</div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"One of the most glorious moments of mortality occurs when we discover the joy that comes when doing always those things that 'work for and please the Lord' and 'what works for us' become one and the same!"</div>
+          <div class="quote-attrib">— Elder Ulisses Soares</div>
+        </div>
+      </div>
+
+      <div class="content-label">Questions</div>
+      <div class="questions">
+        <div class="question-item">
+          <div class="q-num">1</div>
+          <div class="q-text">The merchant sold everything he had to get the pearl — and he did it joyfully. What would be hard for you to give up for the gospel? What already feels worth it?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">2</div>
+          <div class="q-text">Choosing to follow God when it's hard or inconvenient — that's what keeping covenants looks like in real life. Can you think of a time you did that, or saw someone do it?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">3</div>
+          <div class="q-text">The Savior said, "I came down from heaven, not to do mine own will, but the will of him that sent me." What did it cost Him to say that? What does it cost us?</div>
+        </div>
+      </div>
+
+      <div class="invitation-box">
+        <div class="inv-label">Today's invitation</div>
+        <div class="inv-text">Pick one thing today where you're tempted to do it your way. Consciously choose to do it God's way instead. Come back tonight and think about how it felt.</div>
+      </div>
+    `
+  },
+
+  thursday: {
+    label: 'Thursday',
+    theme: 'We walk with each other',
+    headerClass: 'header-thursday',
+    talk: {
+      title: '"By This All Will Know That You Are My Disciples"',
+      speaker: 'Elder Dieter F. Uchtdorf',
+      conference: 'April 2025 General Conference'
+    },
+    setup: 'The first two days were about walking with Christ and choosing to keep going. Today it opens up to the people around you.',
+    content: `
+      <div class="content-label">Read</div>
+      <div class="quotes">
+        <p class="story-para">Elder Uchtdorf brought a close friend — not a member of the Church — to Sunday meetings at a small branch in Germany. Rented rooms above a grocery store. The singing wasn't great. Kids were noisy during the sacrament. He sat through the whole meeting cringing, worried about what she must think.</p>
+        <p class="story-para">When it ended, before he could say anything, she spoke first.</p>
+        <div class="quote-block">
+          <div class="quote-text">"That was beautiful. I'm so impressed with how people treat each other in your church. They all seem to come from different backgrounds, and yet it's clear that they genuinely love each other. This is what I imagine Christ wanted His Church to be like."</div>
+          <div class="quote-attrib">— Elder Uchtdorf's friend</div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"Love one another," Jesus said. "By this all will know that you are My disciples."</div>
+          <div class="quote-attrib">— John 13:34–35</div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"The unity we seek is not to have everyone stand in the same place; it is to have everyone face in the same direction — toward Jesus Christ."</div>
+          <div class="quote-attrib">— Elder Dieter F. Uchtdorf</div>
+        </div>
+      </div>
+
+      <div class="content-label">Questions</div>
+      <div class="questions">
+        <div class="question-item">
+          <div class="q-num">1</div>
+          <div class="q-text">Elder Uchtdorf was embarrassed by the imperfect meeting. His friend saw something completely different. What did she see that he missed?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">2</div>
+          <div class="q-text">Jesus said people will know we're His disciples by how we love each other. At this camp, at school, at church — when is that love obvious? When is it missing?</div>
+        </div>
+        <div class="question-item">
+          <div class="q-num">3</div>
+          <div class="q-text">Elder Uchtdorf talks about being 11 years old, displaced, and feeling like he didn't belong. Who in your life might feel that way right now? What's one concrete thing you could do this week?</div>
+        </div>
+      </div>
+
+      <div class="invitation-box">
+        <div class="inv-label">Today's invitation</div>
+        <div class="inv-text">Do one specific thing for someone else at camp today. Don't wait for them to ask.</div>
+      </div>
+    `
+  }
+};
+
+// ─── OVERLAY LOGIC ────────────────────────────────────────────────────────────
+
+let currentDay = 'tuesday';
+
+function openOverlay(day) {
+  currentDay = day;
+  renderDay(day);
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('overlaySheet').classList.add('open');
+  document.getElementById('overlayBody').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOverlay() {
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('overlaySheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchDay(day) {
+  currentDay = day;
+  renderDay(day);
+  document.getElementById('overlayBody').scrollTop = 0;
+}
+
+function renderDay(day) {
+  const d = days[day];
+
+  // Header text
+  document.getElementById('overlayDay').textContent = d.label;
+  document.getElementById('overlayTheme').textContent = d.theme.toUpperCase();
+
+  // Header color class
+  const wrap = document.getElementById('overlayHeaderWrap');
+  wrap.className = d.headerClass;
+
+  // Pills
+  ['tuesday','wednesday','thursday'].forEach(k => {
+    document.getElementById('pill-' + k).classList.toggle('active', k === day);
+  });
+
+  // Body
+  const setupParas = d.setup.split('\n\n').map(s =>
+    `<p class="setup-para">${s}</p>`
+  ).join('');
+
+  document.getElementById('overlayBody').innerHTML = `
+    <div class="talk-ref">
+      <div class="talk-title">${d.talk.title}</div>
+      <div class="talk-meta">${d.talk.speaker} &nbsp;·&nbsp; ${d.talk.conference}</div>
+    </div>
+    ${setupParas}
+    ${d.content}
+  `;
+}
+
+// Close on escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeOverlay();
+});
+</script>
+</body>
+</html>

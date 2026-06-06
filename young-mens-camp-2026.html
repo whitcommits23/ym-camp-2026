@@ -585,6 +585,141 @@
     .gear-cat.fw { grid-column: 1; }
     .legend-bar { padding: 12px 16px; }
   }
+
+  /* ===== DEVOTIONAL OVERLAY ===== */
+  .block.devotional-tappable {
+    cursor: pointer;
+    background: rgba(58,110,150,0.04);
+    transition: background 0.15s;
+  }
+  .block.devotional-tappable:hover,
+  .block.devotional-tappable:active { background: rgba(58,110,150,0.1); }
+
+  .open-hint {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-top: 4px;
+  }
+  .open-hint::after { content: '›'; font-size: 0.9rem; line-height: 1; }
+
+  .devo-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .devo-backdrop.open { opacity: 1; pointer-events: all; }
+
+  .devo-sheet {
+    position: fixed; bottom: 0; left: 0; right: 0; top: 0;
+    background: var(--cream);
+    z-index: 201;
+    display: flex; flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.32,0.72,0,1);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .devo-sheet.open { transform: translateY(0); }
+
+  .devo-header-wrap {}
+  .devo-header {
+    padding: 22px 22px 16px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .devo-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem; letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    margin-bottom: 8px;
+  }
+  .devo-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem; letter-spacing: 2px; line-height: 0.95;
+    color: var(--cream);
+  }
+  .devo-close {
+    background: rgba(255,255,255,0.15); border: none;
+    color: var(--cream); width: 34px; height: 34px;
+    border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .devo-close:hover { background: rgba(255,255,255,0.25); }
+
+  .devo-pills {
+    display: flex; gap: 8px;
+    padding: 0 22px 18px;
+  }
+  .devo-pill {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.55);
+    cursor: pointer; transition: all 0.15s; background: none;
+  }
+  .devo-pill.active { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.5); }
+  .devo-pill:hover  { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .devo-body {
+    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    background: var(--cream); padding: 28px 22px 56px;
+  }
+
+  .devo-talk-ref { margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .devo-talk-title { font-size: 0.9rem; font-weight: 600; color: var(--charcoal); }
+  .devo-talk-meta  { font-family: 'Courier Prime', monospace; font-size: 0.67rem; color: var(--muted); margin-top: 3px; }
+
+  .devo-setup { font-size: 0.92rem; line-height: 1.7; color: var(--charcoal); margin-bottom: 26px; }
+
+  .devo-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .devo-label::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.1); }
+
+  .devo-quotes { margin-bottom: 28px; }
+  .devo-quote {
+    border-left: 3px solid var(--sky);
+    padding: 10px 16px; margin-bottom: 12px;
+    background: rgba(58,110,150,0.04);
+    border-radius: 0 4px 4px 0;
+  }
+  .devo-quote-text  { font-size: 0.92rem; font-style: italic; line-height: 1.65; color: #222; }
+  .devo-quote-attrib { font-family: 'Courier Prime', monospace; font-size: 0.66rem; color: var(--muted); margin-top: 6px; }
+  .devo-bridge { font-size: 0.82rem; color: var(--muted); font-style: italic; margin: 4px 0 10px; }
+  .devo-story  { font-size: 0.9rem; line-height: 1.7; color: var(--charcoal); margin-bottom: 12px; }
+
+  .devo-questions { margin-bottom: 28px; }
+  .devo-q { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+  .devo-q-num  { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--pine); line-height: 1; min-width: 18px; padding-top: 1px; }
+  .devo-q-text { font-size: 0.9rem; line-height: 1.6; color: var(--charcoal); flex: 1; }
+
+  .devo-invitation {
+    background: var(--forest); border-radius: 6px;
+    padding: 20px 22px; color: var(--cream);
+  }
+  .devo-inv-label { font-family: 'Courier Prime', monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .devo-inv-text  { font-size: 0.92rem; line-height: 1.65; color: rgba(245,240,232,0.9); }
+
+  .header-tuesday   .devo-header, .header-tuesday   .devo-pills { background: var(--pine); }
+  .header-wednesday .devo-header, .header-wednesday .devo-pills { background: var(--bark); }
+  .header-thursday  .devo-header, .header-thursday  .devo-pills { background: var(--ember); }
 </style>
 </head>
 <body>
@@ -667,9 +802,12 @@
           <div class="time">8:00 AM</div>
           <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
         </div>
-        <div class="block type-devotional">
+        <div class="block type-devotional devotional-tappable" onclick="openDevo('tuesday')">
           <div class="time">9:00 AM</div>
-          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+          <div class="activity-wrap">
+            <div class="activity">Quorum Morning Devo <span class="tag tag-devotional">Devotional</span></div>
+            <div class="open-hint">Open morning guide</div>
+          </div>
         </div>
         <div class="block type-travel">
           <div class="time">9:30 AM</div>
@@ -729,9 +867,12 @@
           <div class="time">8:00 AM</div>
           <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
         </div>
-        <div class="block type-devotional">
+        <div class="block type-devotional devotional-tappable" onclick="openDevo('wednesday')">
           <div class="time">9:00 AM</div>
-          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+          <div class="activity-wrap">
+            <div class="activity">Quorum Morning Devo <span class="tag tag-devotional">Devotional</span></div>
+            <div class="open-hint">Open morning guide</div>
+          </div>
         </div>
         <div class="block type-excursion">
           <div class="time">9:30 AM</div>
@@ -799,9 +940,12 @@
           <div class="time">8:00 AM</div>
           <div class="activity-wrap"><div class="activity">Breakfast <span class="tag tag-meal">Meal</span></div></div>
         </div>
-        <div class="block type-devotional">
+        <div class="block type-devotional devotional-tappable" onclick="openDevo('thursday')">
           <div class="time">9:00 AM</div>
-          <div class="activity-wrap"><div class="activity">Quorum Leader Scriptural Thought <span class="tag tag-devotional">Devotional</span></div></div>
+          <div class="activity-wrap">
+            <div class="activity">Quorum Morning Devo <span class="tag tag-devotional">Devotional</span></div>
+            <div class="open-hint">Open morning guide</div>
+          </div>
         </div>
         <div class="block type-excursion">
           <div class="time">9:30 AM</div>
@@ -1110,6 +1254,26 @@
   </div>
 </section>
 
+<!-- ===== DEVOTIONAL OVERLAY ===== -->
+<div class="devo-backdrop" id="devoBackdrop" onclick="closeDevo()"></div>
+<div class="devo-sheet" id="devoSheet">
+  <div id="devoHeaderWrap" class="header-tuesday">
+    <div class="devo-header">
+      <div>
+        <div class="devo-eyebrow" id="devoEyebrow">Tuesday</div>
+        <div class="devo-title"  id="devoTitle">CHRIST WALKS WITH US</div>
+      </div>
+      <button class="devo-close" onclick="closeDevo()">&#10005;</button>
+    </div>
+    <div class="devo-pills">
+      <button class="devo-pill active" id="devoPill-tuesday"   onclick="switchDevo('tuesday')">Tue</button>
+      <button class="devo-pill"        id="devoPill-wednesday" onclick="switchDevo('wednesday')">Wed</button>
+      <button class="devo-pill"        id="devoPill-thursday"  onclick="switchDevo('thursday')">Thu</button>
+    </div>
+  </div>
+  <div class="devo-body" id="devoBody"></div>
+</div>
+
 <script>
   function switchTab(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1164,6 +1328,112 @@
     restore();
     update();
   })();
+
+  // ===== DEVOTIONAL OVERLAY =====
+  const devoData = {
+    tuesday: {
+      label: 'Tuesday',
+      theme: 'CHRIST WALKS WITH US',
+      headerClass: 'header-tuesday',
+      talk: { title: '&ldquo;Draw Near unto Me&rdquo;', speaker: 'President Henry B. Eyring', conf: 'April 2025 General Conference' },
+      setup: 'Two disciples are walking away from Jerusalem after the Crucifixion. They\'re heartbroken and confused. A stranger walks up and joins them for miles, opens the scriptures, explains everything they\'d missed. When He breaks bread at the end of the night, they finally see who it was: the risen Christ. He\'d been walking with them the whole time.',
+      body: `<div class="devo-label">Read</div>
+      <div class="devo-quotes">
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;Draw near unto me and I will draw near unto you; seek me diligently and ye shall find me; ask, and ye shall receive; knock, and it shall be opened unto you.&rdquo;</div><div class="devo-quote-attrib">&mdash; D&amp;C 88:63</div></div>
+        <p class="devo-bridge">And here&rsquo;s what the two disciples said to each other after He&rsquo;d gone:</p>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;Did not our heart burn within us, while he talked with us by the way, and while he opened to us the scriptures?&rdquo;</div><div class="devo-quote-attrib">&mdash; Luke 24:32</div></div>
+      </div>
+      <div class="devo-label">Questions</div>
+      <div class="devo-questions">
+        <div class="devo-q"><div class="devo-q-num">1</div><div class="devo-q-text">Those two disciples walked with the Savior for miles and didn&rsquo;t recognize Him. When do you think Christ has been walking with you &mdash; maybe before you noticed it?</div></div>
+        <div class="devo-q"><div class="devo-q-num">2</div><div class="devo-q-text">Their hearts burned while He talked with them. Have you felt something like that? When?</div></div>
+        <div class="devo-q"><div class="devo-q-num">3</div><div class="devo-q-text">We&rsquo;re away from your normal routine this week. What&rsquo;s one specific thing you could do at camp to draw closer to Christ? Make it concrete.</div></div>
+      </div>
+      <div class="devo-invitation"><div class="devo-inv-label">Today&rsquo;s invitation</div><div class="devo-inv-text">At some point today, say a short prayer and specifically invite the Savior to walk with you through the rest of the day.</div></div>`
+    },
+    wednesday: {
+      label: 'Wednesday',
+      theme: 'WE CHOOSE TO KEEP WALKING',
+      headerClass: 'header-wednesday',
+      talk: { title: '&ldquo;Aligning Our Will with His&rdquo;', speaker: 'Elder Ulisses Soares', conf: 'October 2024 General Conference' },
+      setup: 'Yesterday was about Christ already walking with you. Today is about the choice you make to keep walking with Him.\n\nElder Soares opens with a parable, then goes straight at something you\'ve heard plenty: &ldquo;live your own truth&rdquo; and &ldquo;do what works for you.&rdquo; He doesn\'t dodge it.',
+      body: `<div class="devo-label">Read</div>
+      <div class="devo-quotes">
+        <div class="devo-quote"><div class="devo-quote-text">A merchant man found a pearl of great price. In order to acquire it, he had to sell all his possessions &mdash; which he promptly and joyfully did.</div><div class="devo-quote-attrib">&mdash; Matthew 13:45&ndash;46, paraphrased by Elder Soares</div></div>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;The ultimate test of our discipleship is found in our willingness to give up and lose our old self and submit our heart and our whole soul to God so that His will becomes ours.&rdquo;</div><div class="devo-quote-attrib">&mdash; Elder Ulisses Soares</div></div>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;One of the most glorious moments of mortality occurs when we discover the joy that comes when doing always those things that &lsquo;work for and please the Lord&rsquo; and &lsquo;what works for us&rsquo; become one and the same!&rdquo;</div><div class="devo-quote-attrib">&mdash; Elder Ulisses Soares</div></div>
+      </div>
+      <div class="devo-label">Questions</div>
+      <div class="devo-questions">
+        <div class="devo-q"><div class="devo-q-num">1</div><div class="devo-q-text">The merchant sold everything he had to get the pearl &mdash; and he did it joyfully. What would be hard for you to give up for the gospel? What already feels worth it?</div></div>
+        <div class="devo-q"><div class="devo-q-num">2</div><div class="devo-q-text">Choosing to follow God when it&rsquo;s hard or inconvenient &mdash; that&rsquo;s what keeping covenants looks like in real life. Can you think of a time you did that, or saw someone do it?</div></div>
+        <div class="devo-q"><div class="devo-q-num">3</div><div class="devo-q-text">The Savior said, &ldquo;I came down from heaven, not to do mine own will, but the will of him that sent me.&rdquo; What did it cost Him to say that? What does it cost us?</div></div>
+      </div>
+      <div class="devo-invitation"><div class="devo-inv-label">Today&rsquo;s invitation</div><div class="devo-inv-text">Pick one thing today where you&rsquo;re tempted to do it your way. Consciously choose to do it God&rsquo;s way instead. Come back tonight and think about how it felt.</div></div>`
+    },
+    thursday: {
+      label: 'Thursday',
+      theme: 'WE WALK WITH EACH OTHER',
+      headerClass: 'header-thursday',
+      talk: { title: '&ldquo;By This All Will Know That You Are My Disciples&rdquo;', speaker: 'Elder Dieter F. Uchtdorf', conf: 'April 2025 General Conference' },
+      setup: 'The first two days were about walking with Christ and choosing to keep going. Today it opens up to the people around you.',
+      body: `<div class="devo-label">Read</div>
+      <div class="devo-quotes">
+        <p class="devo-story">Elder Uchtdorf brought a close friend &mdash; not a member of the Church &mdash; to Sunday meetings at a small branch in Germany. Rented rooms above a grocery store. The singing wasn&rsquo;t great. Kids were noisy during the sacrament. He sat through the whole meeting worried about what she must think.</p>
+        <p class="devo-story">When it ended, before he could say anything, she spoke first.</p>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;That was beautiful. I&rsquo;m so impressed with how people treat each other in your church. They all seem to come from different backgrounds, and yet it&rsquo;s clear that they genuinely love each other. This is what I imagine Christ wanted His Church to be like.&rdquo;</div><div class="devo-quote-attrib">&mdash; Elder Uchtdorf&rsquo;s friend</div></div>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;Love one another,&rdquo; Jesus said. &ldquo;By this all will know that you are My disciples.&rdquo;</div><div class="devo-quote-attrib">&mdash; John 13:34&ndash;35</div></div>
+        <div class="devo-quote"><div class="devo-quote-text">&ldquo;The unity we seek is not to have everyone stand in the same place; it is to have everyone face in the same direction &mdash; toward Jesus Christ.&rdquo;</div><div class="devo-quote-attrib">&mdash; Elder Dieter F. Uchtdorf</div></div>
+      </div>
+      <div class="devo-label">Questions</div>
+      <div class="devo-questions">
+        <div class="devo-q"><div class="devo-q-num">1</div><div class="devo-q-text">Elder Uchtdorf was embarrassed by the imperfect meeting. His friend saw something completely different. What did she see that he missed?</div></div>
+        <div class="devo-q"><div class="devo-q-num">2</div><div class="devo-q-text">Jesus said people will know we&rsquo;re His disciples by how we love each other. At this camp, at school, at church &mdash; when is that love obvious? When is it missing?</div></div>
+        <div class="devo-q"><div class="devo-q-num">3</div><div class="devo-q-text">Elder Uchtdorf talks about being 11 years old, displaced, and feeling like he didn&rsquo;t belong. Who in your life might feel that way right now? What&rsquo;s one concrete thing you could do this week?</div></div>
+      </div>
+      <div class="devo-invitation"><div class="devo-inv-label">Today&rsquo;s invitation</div><div class="devo-inv-text">Do one specific thing for someone else at camp today. Don&rsquo;t wait for them to ask.</div></div>`
+    }
+  };
+
+  function openDevo(day) {
+    renderDevo(day);
+    document.getElementById('devoBackdrop').classList.add('open');
+    document.getElementById('devoSheet').classList.add('open');
+    document.getElementById('devoBody').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDevo() {
+    document.getElementById('devoBackdrop').classList.remove('open');
+    document.getElementById('devoSheet').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function switchDevo(day) {
+    renderDevo(day);
+    document.getElementById('devoBody').scrollTop = 0;
+  }
+
+  function renderDevo(day) {
+    const d = devoData[day];
+    document.getElementById('devoEyebrow').textContent = d.label;
+    document.getElementById('devoTitle').textContent = d.theme;
+    document.getElementById('devoHeaderWrap').className = d.headerClass;
+    ['tuesday','wednesday','thursday'].forEach(k => {
+      document.getElementById('devoPill-' + k).classList.toggle('active', k === day);
+    });
+    const setupHtml = d.setup.split('\n\n').map(s => `<p class="devo-setup">${s}</p>`).join('');
+    document.getElementById('devoBody').innerHTML = `
+      <div class="devo-talk-ref">
+        <div class="devo-talk-title">${d.talk.title}</div>
+        <div class="devo-talk-meta">${d.talk.speaker} &nbsp;&middot;&nbsp; ${d.talk.conf}</div>
+      </div>
+      ${setupHtml}
+      ${d.body}
+    `;
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDevo(); });
 
   // Register service worker for offline support
   if ('serviceWorker' in navigator) {
